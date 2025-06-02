@@ -149,5 +149,5 @@ def main():
 
     print(f"You left with ${balance}")
 
-
+print("just checking git")
 main()

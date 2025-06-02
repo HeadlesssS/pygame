@@ -1,29 +1,32 @@
+#add menu ani game over vayesi restart
 import pygame
 import math
+
 import random
 from pygame import mixer
 
 #just initializing the game..
 pygame.init()
 
+
 #Creating the screen
-screen=pygame.display.set_mode((800,600))
+screen=pygame.display.set_mode((800,600),pygame.RESIZABLE)
 
 #background
-background=pygame.image.load("background.png")
+background=pygame.image.load("pygames/background.png")
 
 #background sound
-mixer.music.load('background.wav')
+mixer.music.load('pygames/background.wav')
 mixer.music.play(-1)
 
 #Title and Icon
 pygame.display.set_caption("Hunterrrrrr")
-icon= pygame.image.load("drippp.png")
+icon= pygame.image.load("pygames/drippp.png")
 pygame.display.set_icon(icon)
 
 
 #player
-playerImg=pygame.image.load("it.png")
+playerImg=pygame.image.load("pygames/it.png")
 playerX=380
 playerY=480
 playerX_change =0
@@ -38,7 +41,7 @@ num_of_enemies=6
 
 #ENEMY
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load("duck.png"))
+    enemyImg.append(pygame.image.load("pygames/duck.png"))
     enemyX.append(random.randint(0,736))
     enemyY.append(random.randint(50,150))
     enemyX_change.append(4)
@@ -48,7 +51,7 @@ for i in range(num_of_enemies):
 #ready=cant see being ready
 #fire=bullet shot
 
-BulletImg=pygame.image.load("bullet.png")
+BulletImg=pygame.image.load("pygames/bullet.png")
 bulletX=0
 bulletY=playerY
 bulletX_change=0
@@ -104,29 +107,26 @@ while running:
 
 #keystroke is event and we are checking it is right or left
         if event.type ==pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 playerX_change-=3
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                  playerX_change+=3
 
-            if event.key == pygame.K_UP:
-                 playerY_change-=3
-            if event.key == pygame.K_DOWN:
-                 playerY_change+=3
+            
                  #ya niri bulelt X player X sanga equal huda kina bullet straight? kinaki the playerx 
                  #is constantly changing tala playerX+=playerX + playerX_change gareko xa
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     # get x-coordinate of the spaceship
-                    bullet_Sound=mixer.Sound('laser.wav')
+                    bullet_Sound=mixer.Sound('pygames/laser.wav')
                     bullet_Sound.play()
                     
                     bulletX=playerX
                     fire_bullet(bulletX,bulletY)
         if event.type ==pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_change = 0
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_w or event.key == pygame.K_s:
                 playerY_change = 0
 
 #checking for boundaries
@@ -166,14 +166,13 @@ while running:
         collision= isCollision(enemyX[i],enemyY[i],bulletX,bulletY)
         if collision:
             #explosion ko sound
-            explosion_Sound=mixer.Sound('explosion.wav')
+            explosion_Sound=mixer.Sound('pygames/explosion.wav')
             explosion_Sound.play()
             bulletY=playerY
             bullet_state="ready"
             score_value+=1
             enemyX[i]=random.randint(0,736)
             enemyY[i]=random.randint(50,150)
-            
         enemy(enemyX[i],enemyY[i],i)
         
     #bullet movement
